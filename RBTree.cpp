@@ -1,5 +1,5 @@
 //Implementation file RBTree.cpp
-//The interface of the class Node is in the header file RBTree.h
+//The interface of the class RBTree is in the header file RBTree.h
 
 #include <iostream>
 #include "Node.h"
@@ -51,15 +51,33 @@ void RBTree::Right_Rotate(Node* x) {
 	y->right = x;
 	x->p = y;
 }
-void RBTree::RB_Insert_Fixup(Node* x) {
+void RBTree::RB_Insert_Fixup(Node* z) {
 
 
 
 }
-void RBTree::RB_Insert(Node* x) {
-
-
-
+void RBTree::RB_Insert(Node* z) {
+	Node* y = this->nil;
+	Node* x = this->root;
+	while (x != this->nil) {
+		y = x;		//Trailing pointer to keep track of x's parent
+		if (z->key < x->key)
+			x = x->left;
+		else
+			x = x->right;
+	}
+	//After the iteration, x becomes nil, this is where to insert z
+	z->p = y;
+	if (y == this.nil)
+		this->root = z;
+	else if (z->key < y->key)
+		y->left = z;
+	else
+		y->right = z;
+	z->left = this->nil;
+	z->right = this->nil;
+	z->color = 'r';
+	RB_Insert_Fixup(z);
 }
 
 Node* RBTree::Tree_Search(Node* x, int k) {
