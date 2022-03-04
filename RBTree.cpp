@@ -11,27 +11,57 @@ RBTree::RBTree() {
 	nil = nullptr;
 	root = nil;
 }
-
-void RBTree::RB_Insert_Fixup(Node* z) {
+//Left rotate: let x's right child (y) become x's parent;
+//let y's left subtree become x's right subtree
+void RBTree::Left_Rotate(Node* x) {
+	Node* y = x->right;
+	//Turn y's left subtree into x's right subtree
+	x->right = y->left;
+	if (y->left != this->nil)
+		y->left->p = x;
+	//Link x's parent to y
+	y->p = x->p;
+	if (x->p == this->nil)
+		this->root = y;
+	else if (x == x->p->left)
+		x->p->left = y;
+	else
+		x->p->right = y;
+	//Put x on y's left
+	y->left = x;
+	x->p = y;
+}
+//Right rotate: let x's left child (y) become x's parent;
+//let y's right subtree become x's left subtree
+void RBTree::Right_Rotate(Node* x) {
+	Node* y = x->left;
+	//Turn y's right subtree into x's left subtree
+	x->left = y->right;
+	if (y->right != this->nil)
+		y->right->p = x;
+	//Link x's parent to y
+	y->p = x->p;
+	if (x->p == this->nil)
+		this->root = y;
+	else if (x == x->p->left)
+		x->p->left = y;
+	else
+		x->p->right = y;
+	//Put x on y's right
+	y->right = x;
+	x->p = y;
+}
+void RBTree::RB_Insert_Fixup(Node* x) {
 
 
 
 }
-void RBTree::RB_Insert(Node* z) {
+void RBTree::RB_Insert(Node* x) {
 
 
 
 }
-void RBTree::Left_Rotate(Node* z) {
 
-
-
-}
-void RBTree::Right_Rotate(Node* z) {
-
-
-
-}
 Node* RBTree::Tree_Search(Node* x, int k) {
 	while (x != this->nil && k != x->key) {
 		if (k < x->key)
@@ -95,12 +125,12 @@ void RBTree::Preorder_Tree_Walk(Node* x) {
 	cout << "Preorder tree walk ends.\n";
 }
 void RBTree::Postorder_Tree_Walk(Node* x) {
+	cout << "Postorder tree walk starts:\n";
 	if (x != this->nil) {
-		Inorder_Tree_Walk(x->left);
+		Postorder_Tree_Walk(x->left);
+		Postorder_Tree_Walk(x->right);
 		cout << x->key << ' ';
-		Inorder_Tree_Walk(x->right);
 		cout << endl;
 	}
-
-
+	cout << "Postorder tree walk ends.\n";
 }
